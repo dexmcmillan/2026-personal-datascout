@@ -216,12 +216,14 @@ For each item worth including, provide:
 - summary: a one-line summary (max 25 words)
 - why: why it matters for a Canadian audience (max 20 words)
 - score: relevance score 1-5 (5 = most relevant)
+- location: one of "CANADA", "WORLD"
+- category: one of "ECONOMICS", "BUSINESS", "CLIMATE", "HOUSING", "HEALTHCARE", "POLITICS", "TECHNOLOGY", "DEMOGRAPHICS", "TRANSPARENCY", "METHODS"
 
 Prioritize: Canadian data, economy, housing, healthcare, climate, data journalism techniques.
 Skip items that are clearly irrelevant, promotional, or not data-related.
 
-Return ONLY valid JSON — an array of objects with keys: index, summary, why, score.
-Example: [{{"index": 0, "summary": "...", "why": "...", "score": 4}}]
+Return ONLY valid JSON — an array of objects with keys: index, summary, why, score, location, category.
+Example: [{{"index": 0, "summary": "...", "why": "...", "score": 4, "location": "CANADA", "category": "HOUSING"}}]
 
 Items to evaluate:
 {items_text}"""
@@ -246,7 +248,8 @@ Items to evaluate:
         print(f"  Gemini error: {e}")
         # Fallback: include all items with default score
         scored = [
-            {"index": i, "summary": item["summary_raw"][:100], "why": "", "score": 3}
+            {"index": i, "summary": item["summary_raw"][:100], "why": "", "score": 3,
+             "location": "CANADA" if item["is_canadian_data"] else "WORLD", "category": ""}
             for i, item in enumerate(items)
         ]
 
@@ -259,6 +262,8 @@ Items to evaluate:
             item["summary"] = s.get("summary", item["summary_raw"][:100])
             item["why"] = s.get("why", "")
             item["score"] = s.get("score", 3)
+            item["location"] = s.get("location", "CANADA" if item["is_canadian_data"] else "WORLD")
+            item["category"] = s.get("category", "")
             results.append(item)
     return results
 

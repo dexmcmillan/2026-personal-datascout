@@ -89,16 +89,35 @@
             margin-bottom: 0.4rem;
         }
 
-        .source-tag {
+        .tag {
             display: inline-block;
-            background: #f0f0f0;
             padding: 0.1rem 0.5rem;
             border-radius: 3px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            color: #555;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-right: 0.3rem;
+        }
+
+        .source-tag {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .location-tag.canada {
+            background: #fce4e4;
+            color: #b91c1c;
+        }
+
+        .location-tag.world {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .category-tag {
+            background: #f0fdf4;
+            color: #166534;
         }
 
         .item .summary {
@@ -186,7 +205,9 @@
         <div class="item">
             <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>
             <div class="meta">
-                <span class="source-tag">{{ item.source }}</span>
+                <span class="tag source-tag">{{ item.source }}</span>
+                <span class="tag location-tag {{ item.location|lower }}">{{ item.location }}</span>
+                {% if item.category %}<span class="tag category-tag">{{ item.category }}</span>{% endif %}
             </div>
             <p class="summary">{{ item.summary }}</p>
             {% if item.why %}<p class="why">{{ item.why }}</p>{% endif %}
@@ -202,7 +223,9 @@
         <div class="item">
             <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>
             <div class="meta">
-                <span class="source-tag">{{ item.source }}</span>
+                <span class="tag source-tag">{{ item.source }}</span>
+                <span class="tag location-tag {{ item.location|lower }}">{{ item.location }}</span>
+                {% if item.category %}<span class="tag category-tag">{{ item.category }}</span>{% endif %}
             </div>
             <p class="summary">{{ item.summary }}</p>
             {% if item.why %}<p class="why">{{ item.why }}</p>{% endif %}
@@ -218,7 +241,9 @@
         <div class="item">
             <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>
             <div class="meta">
-                <span class="source-tag">{{ item.source }}</span>
+                <span class="tag source-tag">{{ item.source }}</span>
+                <span class="tag location-tag {{ item.location|lower }}">{{ item.location }}</span>
+                {% if item.category %}<span class="tag category-tag">{{ item.category }}</span>{% endif %}
             </div>
             <p class="summary">{{ item.summary }}</p>
             {% if item.why %}<p class="why">{{ item.why }}</p>{% endif %}
