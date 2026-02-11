@@ -296,6 +296,27 @@ def build_html_page(scored_items, today_str):
     canadian_data.sort(key=lambda x: x["score"], reverse=True)
     worth_a_look.sort(key=lambda x: x["score"], reverse=True)
 
+    # Assign card sizes for newspaper grid layout
+    # Top stories: first item is "lead" (full-width), next are "mid" (half), rest "compact"
+    for i, item in enumerate(top_stories):
+        if i == 0:
+            item["size"] = "lead"
+        elif i < 3:
+            item["size"] = "mid"
+        else:
+            item["size"] = "compact"
+
+    # Canadian data: first two are "mid", rest are "compact"
+    for i, item in enumerate(canadian_data):
+        if i < 2:
+            item["size"] = "mid"
+        else:
+            item["size"] = "compact"
+
+    # Worth a look: all compact
+    for item in worth_a_look:
+        item["size"] = "compact"
+
     now = datetime.now(timezone.utc).astimezone()
     date_formatted = now.strftime("%A, %B %-d, %Y")
     scan_time = now.strftime("%-I:%M %p")

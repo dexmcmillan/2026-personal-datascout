@@ -14,126 +14,228 @@
         body {
             font-family: Georgia, 'Times New Roman', Times, serif;
             color: #1a1a1a;
-            background: #fff;
-            line-height: 1.6;
-            max-width: 720px;
+            background: #faf9f6;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            background: #fff;
+            min-height: 100vh;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
         }
 
-        header {
-            border-bottom: 3px double #1a1a1a;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
+        /* --- Masthead --- */
+        .masthead {
+            text-align: center;
+            padding: 1.5rem 1rem 0.75rem;
+            border-bottom: 2px solid #1a1a1a;
         }
 
-        header h1 {
-            font-size: 2rem;
+        .masthead h1 {
+            font-size: 3rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        header .date {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-
-        section {
-            margin-bottom: 2.5rem;
-        }
-
-        section h2 {
-            font-size: 1.1rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 0.4rem;
-            margin-bottom: 1.2rem;
+            line-height: 1;
+        }
+
+        .masthead .edition {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            color: #333;
-        }
-
-        .item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .item h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.2rem;
-            line-height: 1.3;
-        }
-
-        .item h3 a {
-            color: #1a1a1a;
-            text-decoration: none;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .item h3 a:hover {
-            border-bottom-color: #1a1a1a;
-        }
-
-        .item .meta {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 0.4rem;
-        }
-
-        .source-tag {
-            display: inline-block;
-            background: #f0f0f0;
-            padding: 0.1rem 0.5rem;
-            border-radius: 3px;
             font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.15rem;
+        }
+
+        .dateline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 1.5rem;
+            border-bottom: 1px solid #1a1a1a;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            color: #555;
+            font-size: 0.75rem;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .item .summary {
+        /* --- Section headers --- */
+        .section-header {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1a1a1a;
+            padding: 0.6rem 1.5rem;
+            border-bottom: 1px solid #ccc;
+            border-top: 3px solid #1a1a1a;
+            background: #faf9f6;
+            font-weight: 600;
+        }
+
+        /* --- Grid --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* --- Card sizes --- */
+        .card {
+            padding: 1.25rem 1.5rem;
+            border-right: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .card:last-child {
+            border-right: none;
+        }
+
+        .card.lead {
+            grid-column: span 6;
+            border-right: none;
+            padding: 1.75rem 1.5rem;
+        }
+
+        .card.mid {
+            grid-column: span 3;
+        }
+
+        .card.compact {
+            grid-column: span 2;
+        }
+
+        /* --- Card content --- */
+        .card h3 {
+            line-height: 1.25;
+            margin-bottom: 0.35rem;
+        }
+
+        .card h3 a {
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .card h3 a:hover {
+            text-decoration: underline;
+        }
+
+        /* Size-specific typography */
+        .card.lead h3 {
+            font-size: 1.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .card.mid h3 {
+            font-size: 1.2rem;
+        }
+
+        .card.compact h3 {
             font-size: 1rem;
+        }
+
+        .card .meta {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-size: 0.7rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 2px;
+            font-size: 0.6rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .source-tag {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .location-tag.canada {
+            background: #fce4e4;
+            color: #b91c1c;
+        }
+
+        .location-tag.world {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .category-tag {
+            background: #ecfdf5;
+            color: #065f46;
+        }
+
+        .card .summary {
+            font-size: 0.95rem;
+            line-height: 1.5;
             margin-bottom: 0.3rem;
         }
 
-        .item .why {
-            font-size: 0.9rem;
-            color: #555;
-            font-style: italic;
+        .card.compact .summary {
+            font-size: 0.88rem;
         }
 
+        .card .why {
+            font-size: 0.85rem;
+            color: #666;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .card.compact .why {
+            font-size: 0.8rem;
+        }
+
+        .card.lead .summary {
+            font-size: 1.1rem;
+        }
+
+        /* Lead story rule */
+        .card.lead .summary,
+        .card.lead .why {
+            max-width: 680px;
+        }
+
+        /* --- Empty state --- */
         .empty-section {
             color: #999;
             font-style: italic;
             font-size: 0.95rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
         }
 
-        footer {
-            border-top: 1px solid #ccc;
-            padding-top: 1rem;
-            margin-top: 2rem;
+        /* --- Footer / Archive --- */
+        .page-footer {
+            padding: 1rem 1.5rem;
+            border-top: 3px solid #1a1a1a;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            font-size: 0.8rem;
+        }
+
+        .page-footer .scan-info {
+            font-size: 0.75rem;
             color: #999;
+            margin-bottom: 0.75rem;
         }
 
-        .archive {
-            margin-top: 1rem;
-        }
-
-        .archive h3 {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            font-size: 0.85rem;
+        .archive h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             color: #666;
             margin-bottom: 0.4rem;
         }
@@ -141,17 +243,13 @@
         .archive ul {
             list-style: none;
             padding: 0;
-        }
-
-        .archive li {
-            display: inline-block;
-            margin-right: 1rem;
-            margin-bottom: 0.3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 1rem;
         }
 
         .archive a {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #555;
             text-decoration: none;
             border-bottom: 1px solid #ddd;
@@ -162,175 +260,289 @@
             border-bottom-color: #1a1a1a;
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 1rem 0.75rem;
+        /* --- Responsive --- */
+        @media (max-width: 700px) {
+            .page {
+                border: none;
             }
 
-            header h1 {
-                font-size: 1.5rem;
+            .masthead h1 {
+                font-size: 2rem;
+            }
+
+            .dateline {
+                padding: 0.4rem 1rem;
+            }
+
+            .section-header {
+                padding: 0.5rem 1rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card.lead,
+            .card.mid,
+            .card.compact {
+                grid-column: span 6;
+                border-right: none;
+            }
+
+            .card.lead h3 {
+                font-size: 1.4rem;
+            }
+
+            .page-footer {
+                padding: 1rem;
+            }
+        }
+
+        @media (min-width: 701px) and (max-width: 900px) {
+            .card.compact {
+                grid-column: span 3;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Data Scout</h1>
-        <div class="date">Wednesday, February 11, 2026</div>
-    </header>
+    <div class="page">
+        <header class="masthead">
+            <h1>Data Scout</h1>
+            <div class="edition">Morning Briefing</div>
+        </header>
 
-    
+        <div class="dateline">
+            <span>Wednesday, February 11, 2026</span>
+            <span>11 sources scanned</span>
+        </div>
 
-    
-    <section>
-        <h2>Canadian Data Updates</h2>
         
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/047c2377-be5b-475d-8db9-d189626f2301">Municipal owners of potable water assets by drinking water advisories that exceeded 15 days, urban and rural, and population size, Infrastructure Canada</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on Canadian municipal drinking water advisories exceeding 15 days.</p>
-            <p class="why">Important for public health and water safety across Canada.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/78009ee6-be06-406f-9ddc-60e8c8ac9bf6">Water asset account</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on Canada&#39;s freshwater assets and changes to those stocks.</p>
-            <p class="why">Important for understanding water resources and sustainability.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity">Daily Shelter &amp; Overnight Service Occupancy &amp; Capacity</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s daily shelter occupancy and capacity data is available.</p>
-            <p class="why">Provides insight into homelessness and shelter usage in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/short-term-rentals-registration">Short Term Rentals Registration</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s short-term rental registration data is available.</p>
-            <p class="why">Impacts housing availability and affordability in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/apartment-building-evaluation">Apartment Building Evaluation</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s apartment building evaluation data is available.</p>
-            <p class="why">Provides insights into rental housing standards in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/3cc4375c-b6ff-43ca-a8cc-aa17a3bfcbe9">Wastewater volumes discharged from municipal sewage systems by treatment category</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on Canadian wastewater volumes discharged by treatment category.</p>
-            <p class="why">Relevant to environmental protection and water management.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/1dc1f162-0423-4436-ae36-ffd406b0877c">Combined sewer overflow discharge volumes</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on combined sewer overflow discharge volumes in Canada.</p>
-            <p class="why">Impacts water quality and environmental health in Canada.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/05912b1a-00fc-4bbc-bddd-74a666a200c0">Wastewater volumes processed by municipal sewage systems</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on wastewater volumes processed by Canadian municipal systems.</p>
-            <p class="why">Provides insight into wastewater treatment across Canada.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/27718db9-e338-4d69-b83f-26627aa08c0d">Treatment of main source of water by households, Canada, provinces and census metropolitan areas (CMA)</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on treatment of main water source by Canadian households.</p>
-            <p class="why">Relevant to public health and access to clean water.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/1ca9756d-eec1-4779-8e53-f0b44b7afc55">Building permits, by type of structure and type of work</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Data on Canadian building permits by structure and work type.</p>
-            <p class="why">Indicates construction activity and economic trends in Canada.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/highrise-residential-fire-inspection-results">Highrise Residential Fire Inspection Results</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s highrise residential fire inspection results are available.</p>
-            <p class="why">Important for safety and housing standards in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/building-permits-cleared-permits">Building Permits - Cleared Permits</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s cleared building permit data is available.</p>
-            <p class="why">Indicates construction activity and development in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/building-construction-demolition-violations">Building Construction/Demolition Violations</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s building construction/demolition violation data is available.</p>
-            <p class="why">Reflects compliance with building codes in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.toronto.ca/dataset/building-permits-active-permits">Building Permits - Active Permits</a></h3>
-            <div class="meta">
-                <span class="source-tag">Toronto Open Data</span>
-            </div>
-            <p class="summary">Toronto&#39;s active building permit data is available.</p>
-            <p class="why">Shows current construction projects and development in Toronto.</p>
-        </div>
-        
-        <div class="item">
-            <h3><a href="https://open.canada.ca/data/en/dataset/bb66787c-9509-456d-bd72-5016abdf39c5">Daily average foreign exchange rates in Canadian dollars, Bank of Canada</a></h3>
-            <div class="meta">
-                <span class="source-tag">Canada Open Data</span>
-            </div>
-            <p class="summary">Daily average foreign exchange rates in Canadian dollars.</p>
-            <p class="why">Important for understanding the Canadian economy.</p>
-        </div>
-        
-    </section>
-    
 
-    
+        
+        <div class="section-header">Canadian Data Updates</div>
+        <div class="grid">
+            
+            <div class="card mid">
+                <h3><a href="https://open.toronto.ca/dataset/daily-shelter-overnight-service-occupancy-capacity">Daily Shelter &amp; Overnight Service Occupancy &amp; Capacity</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s daily shelter occupancy and capacity data is available.</p>
+                <p class="why">Shows the current state of homelessness and shelter usage in Toronto.</p>
+            </div>
+            
+            <div class="card mid">
+                <h3><a href="https://open.toronto.ca/dataset/short-term-rentals-registration">Short Term Rentals Registration</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s short-term rental registration data is available.</p>
+                <p class="why">Provides insight into the short-term rental market in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.toronto.ca/dataset/highrise-residential-fire-inspection-results">Highrise Residential Fire Inspection Results</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s highrise residential fire inspection results are available.</p>
+                <p class="why">Important for safety and housing quality in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.toronto.ca/dataset/building-permits-cleared-permits">Building Permits - Cleared Permits</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s building permits data (cleared permits) is available.</p>
+                <p class="why">Indicates construction activity and development in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.toronto.ca/dataset/building-permits-active-permits">Building Permits - Active Permits</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s building permits data (active permits) is available.</p>
+                <p class="why">Indicates ongoing construction and development in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.toronto.ca/dataset/apartment-building-evaluation">Apartment Building Evaluation</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s apartment building evaluation data is available.</p>
+                <p class="why">Provides insights into rental building standards in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/0797e893-751e-4695-8229-a5066e4fe43c">Completed Access to Information Request Summaries dataset</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">TRANSPARENCY</span>
+                </div>
+                <p class="summary">Summaries of completed Access to Information requests are available.</p>
+                <p class="why">Promotes transparency and accountability in the Canadian government.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/047c2377-be5b-475d-8db9-d189626f2301">Municipal owners of potable water assets by drinking water advisories that exceeded 15 days, urban and rural, and population size, Infrastructure Canada</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HEALTHCARE</span>
+                </div>
+                <p class="summary">Data on drinking water advisories exceeding 15 days is available.</p>
+                <p class="why">Important for understanding water quality issues in Canadian municipalities.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/3cc4375c-b6ff-43ca-a8cc-aa17a3bfcbe9">Wastewater volumes discharged from municipal sewage systems by treatment category</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">CLIMATE</span>
+                </div>
+                <p class="summary">Wastewater discharge volumes by treatment category are available.</p>
+                <p class="why">Important for environmental monitoring and water management in Canada.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/1dc1f162-0423-4436-ae36-ffd406b0877c">Combined sewer overflow discharge volumes</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">CLIMATE</span>
+                </div>
+                <p class="summary">Combined sewer overflow discharge volumes are available.</p>
+                <p class="why">Important for environmental monitoring and water management in Canada.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/05912b1a-00fc-4bbc-bddd-74a666a200c0">Wastewater volumes processed by municipal sewage systems</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">CLIMATE</span>
+                </div>
+                <p class="summary">Wastewater volumes processed by municipal sewage systems are available.</p>
+                <p class="why">Important for environmental monitoring and water management in Canada.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/78009ee6-be06-406f-9ddc-60e8c8ac9bf6">Water asset account</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">CLIMATE</span>
+                </div>
+                <p class="summary">Data on freshwater assets is available.</p>
+                <p class="why">Important for understanding Canada&#39;s water resources.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/1ca9756d-eec1-4779-8e53-f0b44b7afc55">Building permits, by type of structure and type of work</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Data on building permits by type of structure and work is available.</p>
+                <p class="why">Provides insights into construction trends across Canada.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/bb66787c-9509-456d-bd72-5016abdf39c5">Daily average foreign exchange rates in Canadian dollars, Bank of Canada</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">ECONOMICS</span>
+                </div>
+                <p class="summary">Daily average foreign exchange rates in Canadian dollars are available.</p>
+                <p class="why">Important for tracking the value of the Canadian dollar.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.toronto.ca/dataset/building-construction-demolition-violations">Building Construction/Demolition Violations</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HOUSING</span>
+                </div>
+                <p class="summary">Toronto&#39;s building construction/demolition violations data is available.</p>
+                <p class="why">Shows compliance with building regulations in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.toronto.ca/dataset/bodysafe">BodySafe</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Toronto Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HEALTHCARE</span>
+                </div>
+                <p class="summary">Toronto&#39;s Personal Service Settings health inspection results are available.</p>
+                <p class="why">Important for public health and safety in Toronto.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/2916fad5-ebcc-4c86-b0f3-4f619b29f412">Open Government Analytics</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">TRANSPARENCY</span>
+                </div>
+                <p class="summary">Statistics on usage of Canada&#39;s Open Data portal are available.</p>
+                <p class="why">Shows the adoption and impact of open data initiatives in Canada.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/7c03f039-3753-4093-af60-74b0f7b2385d">Government of Canada - Consultations</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">POLITICS</span>
+                </div>
+                <p class="summary">Government of Canada consultations data is available.</p>
+                <p class="why">Shows how the government engages with the public.</p>
+            </div>
+            
+            <div class="card compact">
+                <h3><a href="https://open.canada.ca/data/en/dataset/27718db9-e338-4d69-b83f-26627aa08c0d">Treatment of main source of water by households, Canada, provinces and census metropolitan areas (CMA)</a></h3>
+                <div class="meta">
+                    <span class="tag source-tag">Canada Open Data</span>
+                    <span class="tag location-tag canada">CANADA</span>
+                    <span class="tag category-tag">HEALTHCARE</span>
+                </div>
+                <p class="summary">Data on household water treatment methods is available.</p>
+                <p class="why">Provides insight into water quality concerns across Canada.</p>
+            </div>
+            
+        </div>
+        
 
-    
+        
 
-    
+        
 
-    <footer>
-        Scanned 11 sources at 1:52 PM ET
-    </footer>
+        <footer class="page-footer">
+            <div class="scan-info">Scanned 11 sources at 9:01 AM ET</div>
+            
+        </footer>
+    </div>
 </body>
 </html>
