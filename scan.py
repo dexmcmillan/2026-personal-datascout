@@ -22,17 +22,21 @@ from jinja2 import Environment, FileSystemLoader
 RSS_FEEDS = {
     "The Pudding": "https://pudding.cool/feed/index.xml",
     "ProPublica": "https://www.propublica.org/feeds/propublica/main",
-    "The Markup": "https://themarkup.org/feeds/rss.xml",
-    "FiveThirtyEight": "https://abcnews.go.com/abcnews/538",
-    "Reuters Graphics": "https://www.reuters.com/graphics/RSS",
-    "Source OpenNews": "https://source.opennews.org/feed/",
-    "GIJN": "https://gijn.org/feed/",
-    "Datajournalism.com": "https://datajournalism.com/read/rss",
+    "ICIJ": "https://www.icij.org/feed/",
+    "OCCRP": "https://www.occrp.org/en/feed",
+    "NYT Upshot": "https://rss.nytimes.com/services/xml/rss/nyt/Upshot.xml",
+    "Nieman Lab": "https://feeds.feedburner.com/NiemanLab",
+    "Our World in Data": "https://ourworldindata.org/atom.xml",
+    "BBC More or Less": "https://www.bbc.co.uk/programmes/p02nrss1/episodes/downloads.rss",
 }
 
 CANADIAN_RSS_FEEDS = {
-    "Statistics Canada": "https://www150.statcan.gc.ca/n1/dai-quo/rssFeed-eng.xml",
+    "Globe and Mail": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/business/",
+    "CBC Business": "https://www.cbc.ca/webfeed/rss/rss-business",
 }
+
+# Minimum number of RSS items to always include (most recent) regardless of date
+MIN_RSS_ITEMS = 10
 
 CKAN_APIS = {
     "Toronto Open Data": {
@@ -107,11 +111,19 @@ def parse_feed_date(entry):
 
 
 def fetch_rss_feeds(cutoff_dt, seen):
-    """Fetch items from all RSS feeds published after cutoff_dt."""
-    items = []
+    """Fetch items from all RSS feeds.
+
+    Items within the lookback window are always included. To guarantee data
+    stories every day, the most recent unseen items are also kept even if
+    they fall outside the window (up to MIN_RSS_ITEMS total).
+    """
+    recent_items = []   # Within the lookback window
+    backfill_items = []  # Older but unseen — potential backfill
+
     for source_name, url in {**RSS_FEEDS, **CANADIAN_RSS_FEEDS}.items():
         try:
-            feed = feedparser.parse(url)
+            resp = requests.get(url, timeout=15, headers={"User-Agent": "DataScout/1.0"})
+            feed = feedparser.parse(resp.content)
             for entry in feed.entries[:20]:
                 title = entry.get("title", "").strip()
                 link = entry.get("link", "").strip()
@@ -121,28 +133,43 @@ def fetch_rss_feeds(cutoff_dt, seen):
                 if iid in seen:
                     continue
                 pub_date = parse_feed_date(entry)
-                if pub_date and pub_date < cutoff_dt:
-                    continue
                 # Extract summary text
                 summary_html = entry.get("summary", "") or entry.get("description", "")
                 summary_text = BeautifulSoup(summary_html, "html.parser").get_text(
                     separator=" ", strip=True
                 )[:500]
                 is_canadian = source_name in CANADIAN_RSS_FEEDS
-                items.append(
-                    {
-                        "id": iid,
-                        "title": title,
-                        "link": link,
-                        "source": source_name,
-                        "summary_raw": summary_text,
-                        "is_canadian_data": is_canadian,
-                    }
-                )
+                item = {
+                    "id": iid,
+                    "title": title,
+                    "link": link,
+                    "source": source_name,
+                    "summary_raw": summary_text,
+                    "is_canadian_data": is_canadian,
+                    "_pub_date": pub_date,
+                }
+                if pub_date is None or pub_date >= cutoff_dt:
+                    recent_items.append(item)
+                else:
+                    backfill_items.append(item)
             print(f"  Fetched {source_name}: {len(feed.entries)} entries")
         except Exception as e:
             print(f"  Error fetching {source_name}: {e}")
-    return items
+
+    # If we have fewer than MIN_RSS_ITEMS, backfill with the most recent older items
+    if len(recent_items) < MIN_RSS_ITEMS:
+        backfill_items.sort(
+            key=lambda x: x["_pub_date"] or datetime.min.replace(tzinfo=timezone.utc),
+            reverse=True,
+        )
+        needed = MIN_RSS_ITEMS - len(recent_items)
+        recent_items.extend(backfill_items[:needed])
+
+    # Clean up internal field
+    for item in recent_items:
+        item.pop("_pub_date", None)
+
+    return recent_items
 
 
 def fetch_ckan_updates(cutoff_dt, seen):
@@ -209,21 +236,25 @@ def filter_with_gemini(client, items):
             f"    Excerpt: {item['summary_raw'][:300]}\n"
         )
 
-    prompt = f"""You are a data editor at a Canadian newspaper. From these items, select the most newsworthy for a Canadian audience.
+    prompt = f"""You are a data editor at a Canadian newspaper building a morning briefing. From these items, select the most newsworthy.
+
+IMPORTANT: You MUST include a mix of:
+- At least 2-3 international data journalism stories or investigations (from sources like ProPublica, ICIJ, OCCRP, NYT Upshot, Our World in Data, Nieman Lab, The Pudding). These are valuable even if not Canada-specific — data journalists learn from great work worldwide.
+- Canadian news and data updates
 
 For each item worth including, provide:
 - index: the item number from the list
 - summary: a one-line summary (max 25 words)
-- why: why it matters for a Canadian audience (max 20 words)
-- score: relevance score 1-5 (5 = most relevant)
+- why: why it matters (max 20 words) — for international stories, explain the data angle or technique
+- score: relevance score 1-5 (5 = most relevant). Score excellent data journalism/investigations 4-5 regardless of geography.
 - location: one of "CANADA", "WORLD"
 - category: one of "ECONOMICS", "BUSINESS", "CLIMATE", "HOUSING", "HEALTHCARE", "POLITICS", "TECHNOLOGY", "DEMOGRAPHICS", "TRANSPARENCY", "METHODS"
 
-Prioritize: Canadian data, economy, housing, healthcare, climate, data journalism techniques.
-Skip items that are clearly irrelevant, promotional, or not data-related.
+Skip items that are clearly irrelevant, promotional, or not data/journalism-related.
+Aim for 15-20 items total.
 
 Return ONLY valid JSON — an array of objects with keys: index, summary, why, score, location, category.
-Example: [{{"index": 0, "summary": "...", "why": "...", "score": 4, "location": "CANADA", "category": "HOUSING"}}]
+Example: [{{"index": 0, "summary": "...", "why": "...", "score": 4, "location": "WORLD", "category": "METHODS"}}]
 
 Items to evaluate:
 {items_text}"""
@@ -285,10 +316,18 @@ def build_html_page(scored_items, today_str):
     template = env.get_template("briefing.html")
 
     top_stories = [i for i in scored_items if i["score"] >= 4 and not i["is_canadian_data"]]
+    # If fewer than 2 top stories, pull in the best-scoring non-Canadian items at score 3
+    if len(top_stories) < 2:
+        extras = sorted(
+            [i for i in scored_items if i["score"] >= 3 and not i["is_canadian_data"] and i not in top_stories],
+            key=lambda x: x["score"], reverse=True,
+        )
+        top_stories.extend(extras[: 2 - len(top_stories)])
     canadian_data = [i for i in scored_items if i["is_canadian_data"] and i["score"] >= 3]
+    top_ids = {i["id"] for i in top_stories}
     worth_a_look = [
         i for i in scored_items
-        if i["score"] == 3 and not i["is_canadian_data"] and i not in canadian_data
+        if i["score"] == 3 and not i["is_canadian_data"] and i["id"] not in top_ids
     ]
 
     # Sort each section by score descending
